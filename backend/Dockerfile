@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:25-alpine
 WORKDIR /app
 COPY --chown=node:node package*.json ./
 RUN npm ci --omit=dev
