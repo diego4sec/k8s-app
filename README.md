@@ -73,7 +73,7 @@ Full instructions: [docs/local-setup.md](docs/local-setup.md)
 
 ### Option 2 — GitHub Actions + GHCR
 
-Pushes images to GitHub Container Registry automatically on every push to `main`. No manual image builds or registry setup needed.
+Pushes multi-architecture images to GitHub Container Registry automatically on every push to `main`. No manual image builds or registry setup needed.
 
 **Prerequisites:** A GitHub repository with the workflow committed.
 
@@ -84,6 +84,8 @@ Images produced:
 ghcr.io/diegolegitsec/k8s-app/backend:latest
 ghcr.io/diegolegitsec/k8s-app/frontend:latest
 ```
+
+Each pushed tag supports `linux/amd64` and `linux/arm64`.
 
 Full instructions: [docs/ci-setup.md](docs/ci-setup.md)
 

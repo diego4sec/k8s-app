@@ -1,13 +1,14 @@
 # Option 2 — GitHub Actions + GHCR
 
-The workflow at `.github/workflows/build-push.yml` builds both Docker images and pushes them to GitHub Container Registry (GHCR) on every push to `main`.
+The workflow at `.github/workflows/build-push.yml` builds both Docker images for `linux/amd64` and `linux/arm64`, then pushes them to GitHub Container Registry (GHCR) on every push to `main`.
 
 ## How it works
 
 1. Triggers on push to `main` or manually via `workflow_dispatch`
 2. Logs in to `ghcr.io` using the built-in `GITHUB_TOKEN` — no secrets to configure
-3. Builds `./backend` and `./frontend` with layer caching via GitHub Actions cache
-4. Pushes two tags per image:
+3. Sets up QEMU and Docker Buildx for cross-platform builds
+4. Builds `./backend` and `./frontend` as multi-architecture images
+5. Pushes two tags per image:
    - `latest` — always points to the most recent build from `main`
    - `<git-sha>` — immutable reference for pinned deployments
 
@@ -15,6 +16,13 @@ The workflow at `.github/workflows/build-push.yml` builds both Docker images and
 ```
 ghcr.io/diegolegitsec/k8s-app/backend:latest
 ghcr.io/diegolegitsec/k8s-app/frontend:latest
+```
+
+Each tag is a multi-architecture manifest for:
+
+```text
+linux/amd64
+linux/arm64
 ```
 
 ## Setup steps
