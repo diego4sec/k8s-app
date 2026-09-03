@@ -29,14 +29,27 @@ Three microservices, each in its own Kubernetes Deployment:
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/api/health` | Health check |
-| GET | `/api/entries` | List all entries |
+| GET | `/api/entries?limit=25&offset=0` | List entries with pagination metadata |
 | POST | `/api/entries` | Create `{ id: number, value: string }` |
 | GET | `/api/entries/:id` | Get by ID |
 | DELETE | `/api/entries/:id` | Delete by ID |
 | GET | `/api/logging/status` | Get logging state |
 | POST | `/api/logging/toggle` | Toggle request logging on/off |
 
-All responses include a `"logging": bool` field reflecting the current logging state.
+Successful responses include a `"logging": bool` field reflecting the current logging state. The list endpoint also returns:
+
+```json
+{
+  "pagination": {
+    "offset": 0,
+    "limit": 25,
+    "total": 42,
+    "hasMore": true,
+    "nextOffset": 25,
+    "previousOffset": null
+  }
+}
+```
 
 ---
 

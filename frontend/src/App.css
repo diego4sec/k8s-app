@@ -45,6 +45,12 @@ h1 {
   background: #f0fdf4;
 }
 
+button:disabled,
+input:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .form-section,
 .list-section {
   background: #fff;
@@ -96,8 +102,29 @@ button[type='submit']:hover {
   background: #4f46e5;
 }
 
+.secondary-btn {
+  padding: 0.45rem 0.85rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.secondary-btn:hover:not(:disabled) {
+  border-color: #bbb;
+  background: #f8fafc;
+}
+
 .error {
   color: #dc2626;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.success {
+  color: #15803d;
   margin-top: 0.5rem;
   font-size: 0.9rem;
 }
@@ -107,9 +134,44 @@ button[type='submit']:hover {
   font-style: italic;
 }
 
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.section-header h2 {
+  margin-bottom: 0;
+}
+
+.entry-count {
+  color: #666;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.state {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.state .error {
+  margin-top: 0;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 520px;
 }
 
 th,
@@ -137,6 +199,42 @@ th {
   font-size: 0.85rem;
 }
 
-.delete-btn:hover {
+.delete-btn:hover:not(:disabled) {
   background: #fecaca;
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 560px) {
+  .container {
+    padding: 1rem;
+  }
+
+  header,
+  .section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .toggle-btn,
+  button[type='submit'] {
+    width: 100%;
+  }
+
+  input {
+    min-width: 100%;
+  }
+
+  .pagination {
+    justify-content: stretch;
+  }
+
+  .pagination .secondary-btn {
+    flex: 1;
+  }
 }

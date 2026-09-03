@@ -1,18 +1,15 @@
 import { Router } from 'express'
-import redis from '../lib/redis.js'
+import asyncHandler from '../lib/asyncHandler.js'
+import { getLoggingState, toggleLoggingState } from '../lib/loggingState.js'
 
 const router = Router()
 
-router.get('/status', async (req, res) => {
-  const val = await redis.get('config:logging')
-  res.json({ logging: val !== 'false' })
-})
+router.get('/status', asyncHandler(async (req, res) => {
+  res.json({ logging: await getLoggingState() })
+}))
 
-router.post('/toggle', async (req, res) => {
-  const val = await redis.get('config:logging')
-  const current = val !== 'false'
-  await redis.set('config:logging', String(!current))
-  res.json({ logging: !current })
-})
+router.post('/toggle', asyncHandler(async (req, res) => {
+  res.json({ logging: await toggleLoggingState() })
+}))
 
 export default router
