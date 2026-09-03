@@ -13,8 +13,8 @@ The workflow at `.github/workflows/build-push.yml` builds both Docker images and
 
 **Image names produced:**
 ```
-ghcr.io/<your-github-username>/k8s-app/backend:latest
-ghcr.io/<your-github-username>/k8s-app/frontend:latest
+ghcr.io/diegolegitsec/k8s-app/backend:latest
+ghcr.io/diegolegitsec/k8s-app/frontend:latest
 ```
 
 ## Setup steps
@@ -29,12 +29,12 @@ No additional secrets are needed. `GITHUB_TOKEN` is provided automatically by Gi
 
 After the first successful workflow run, your packages will appear at:
 ```
-https://github.com/diego4sec?tab=packages
+https://github.com/diegolegitsec?tab=packages
 ```
 
 By default, new GHCR packages are **private**. To pull them from EKS without an imagePullSecret, make them public:
 
-1. Go to `https://github.com/diego4sec/k8s-app/pkgs/container/k8s-app%2Fbackend`
+1. Go to `https://github.com/diegolegitsec/k8s-app/pkgs/container/k8s-app%2Fbackend`
 2. Click **Package settings** → **Change visibility** → Public
 3. Repeat for the frontend package
 
@@ -46,22 +46,22 @@ Before deploying to AWS, update the `<OWNER>` placeholder in both AWS deployment
 
 **`k8s/aws/backend/deployment.yaml` — line 18:**
 ```yaml
-image: ghcr.io/diego4sec/k8s-app/backend:latest
+image: ghcr.io/diegolegitsec/k8s-app/backend:latest
 ```
 
 **`k8s/aws/frontend/deployment.yaml` — line 18:**
 ```yaml
-image: ghcr.io/diego4sec/k8s-app/frontend:latest
+image: ghcr.io/diegolegitsec/k8s-app/frontend:latest
 ```
 
 Or use `sed` to replace both at once:
 ```bash
-sed -i '' 's|<OWNER>|diego4sec|g' \
+sed -i '' 's|<OWNER>|diegolegitsec|g' \
   k8s/aws/backend/deployment.yaml \
   k8s/aws/frontend/deployment.yaml
 ```
 
-> **Local deployments are unaffected.** `k8s/local/` manifests use `imagePullPolicy: Never` and locally-built images — they never pull from GHCR.
+> **Local deployments are still local-build friendly.** `k8s/local/` manifests use GHCR-style image names with `imagePullPolicy: Never`, so Docker Desktop uses the locally-built images created by `./scripts/deploy.sh vanilla`.
 
 ## Using private packages
 
@@ -71,7 +71,7 @@ If you keep the packages private, create a Kubernetes secret with a GitHub Perso
 kubectl create secret docker-registry ghcr-secret \
   --namespace k8s-app \
   --docker-server=ghcr.io \
-  --docker-username=diego4sec \
+  --docker-username=diegolegitsec \
   --docker-password=<your-pat>
 ```
 
@@ -80,7 +80,7 @@ Then add `imagePullSecrets` to both AWS deployment files:
 spec:
   containers:
     - name: backend
-      image: ghcr.io/diego4sec/k8s-app/backend:latest
+      image: ghcr.io/diegolegitsec/k8s-app/backend:latest
   imagePullSecrets:
     - name: ghcr-secret
 ```
@@ -89,7 +89,7 @@ spec:
 
 To deploy a specific build instead of `latest`, replace the tag with the Git SHA:
 ```yaml
-image: ghcr.io/diego4sec/k8s-app/backend:abc1234
+image: ghcr.io/diegolegitsec/k8s-app/backend:abc1234
 ```
 
 SHA tags are listed under each package's versions page on GitHub.

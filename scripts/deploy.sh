@@ -60,10 +60,10 @@ deploy_vanilla() {
     require_cmd kubectl
 
     log "Building backend image..."
-    docker build -t k8s-app/backend:latest "$ROOT/backend"
+    docker build -t ghcr.io/diegolegitsec/k8s-app/backend:latest "$ROOT/backend"
 
     log "Building frontend image..."
-    docker build -t k8s-app/frontend:latest "$ROOT/frontend"
+    docker build -t ghcr.io/diegolegitsec/k8s-app/frontend:latest "$ROOT/frontend"
 
     log "Applying manifests..."
     kubectl apply -f "$ROOT/k8s/local/namespace.yaml"

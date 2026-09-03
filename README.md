@@ -81,8 +81,8 @@ The workflow at `.github/workflows/build-push.yml` runs automatically. It uses t
 
 Images produced:
 ```
-ghcr.io/<your-username>/k8s-app/backend:latest
-ghcr.io/<your-username>/k8s-app/frontend:latest
+ghcr.io/diegolegitsec/k8s-app/backend:latest
+ghcr.io/diegolegitsec/k8s-app/frontend:latest
 ```
 
 Full instructions: [docs/ci-setup.md](docs/ci-setup.md)

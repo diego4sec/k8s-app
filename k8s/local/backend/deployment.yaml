@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: k8s-app/backend:latest
+          image: ghcr.io/diegolegitsec/k8s-app/backend:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 3000

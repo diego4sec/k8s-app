@@ -13,16 +13,16 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 NS=k8s-app
 
-BACKEND_IMAGE=ghcr.io/diego4sec/k8s-app/backend:latest
-FRONTEND_IMAGE=ghcr.io/diego4sec/k8s-app/frontend:latest
+BACKEND_IMAGE=${BACKEND_IMAGE:-ghcr.io/diegolegitsec/k8s-app/backend:latest}
+FRONTEND_IMAGE=${FRONTEND_IMAGE:-ghcr.io/diegolegitsec/k8s-app/frontend:latest}
 
 log() { echo "▶  $*"; }
 
-# Apply a local manifest but swap in the GHCR images and set imagePullPolicy to Always.
+# Apply a local manifest but swap in the selected GHCR images and allow pulling if needed.
 apply() {
     sed \
-        -e "s|image: k8s-app/backend:latest|image: $BACKEND_IMAGE|g" \
-        -e "s|image: k8s-app/frontend:latest|image: $FRONTEND_IMAGE|g" \
+        -e "s|image: ghcr.io/diegolegitsec/k8s-app/backend:latest|image: $BACKEND_IMAGE|g" \
+        -e "s|image: ghcr.io/diegolegitsec/k8s-app/frontend:latest|image: $FRONTEND_IMAGE|g" \
         -e "s|imagePullPolicy: Never|imagePullPolicy: IfNotPresent|g" \
         "$1" | kubectl apply -f -
 }

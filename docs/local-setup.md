@@ -1,6 +1,6 @@
 # Option 1 — Vanilla (Local, Docker Desktop)
 
-Builds images locally and deploys to Docker Desktop's built-in Kubernetes cluster. No registry or cloud account required.
+Builds GHCR-named images locally and deploys them to Docker Desktop's built-in Kubernetes cluster. No registry or cloud account required.
 
 ## Prerequisites
 
@@ -15,7 +15,7 @@ Builds images locally and deploys to Docker Desktop's built-in Kubernetes cluste
 ```
 
 The script:
-1. Builds `k8s-app/backend:latest` and `k8s-app/frontend:latest` locally
+1. Builds `ghcr.io/diegolegitsec/k8s-app/backend:latest` and `ghcr.io/diegolegitsec/k8s-app/frontend:latest` locally
 2. Applies all manifests in `k8s/local/`
 3. Waits for deployments to roll out
 4. Prints the app URL
@@ -50,7 +50,7 @@ Re-running the script rebuilds both images and does a rolling restart.
 
 To restart a single service after a rebuild:
 ```bash
-docker build -t k8s-app/backend:latest ./backend
+docker build -t ghcr.io/diegolegitsec/k8s-app/backend:latest ./backend
 kubectl rollout restart deployment/backend -n k8s-app
 ```
 
@@ -74,7 +74,7 @@ kubectl apply -f k8s/local/frontend/
 ## Troubleshooting
 
 **Pods stuck in `ErrImagePull`**
-The `imagePullPolicy: Never` in local manifests requires the image to exist locally.
+The `imagePullPolicy: Never` in local manifests requires the GHCR-named image to exist locally.
 Make sure you ran `docker build` before applying, or use `./scripts/deploy.sh vanilla` which handles both steps.
 
 **Backend in `CrashLoopBackOff`**
